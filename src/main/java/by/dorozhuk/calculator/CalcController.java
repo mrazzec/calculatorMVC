@@ -13,11 +13,11 @@ import java.util.ArrayList;
 public class CalcController {
 
     private static ArrayList<String> history = new ArrayList<>();
-    private static String name = "ghost";
+    private static String wrapperName = "ghost";
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("name", name);
+        model.addAttribute("name", wrapperName);
         model.addAttribute("history", history);
         return "index";
     }
@@ -32,28 +32,28 @@ public class CalcController {
             result = calculate(num1, num2, type);
             history.add(num1 + " " + type + " " + num2 + " = " + result);
         }
-        model.addAttribute("name", name);
+        model.addAttribute("name", wrapperName);
         model.addAttribute("history", history);
         model.addAttribute("result", result);
         return "index";
     }
 
     @GetMapping(path = "/user")
-    public String user(@RequestParam(name = "name", required = false) String name,
+    public String user(@RequestParam(name = "wrapperName", required = false) String name,
                        Model model) {
-        this.name = name;
+        wrapperName = name;
 
         if (name.equals("")) {
-            this.name = "ghost";
+            wrapperName = "ghost";
         }
 
-        model.addAttribute("name", this.name);
+        model.addAttribute("name", wrapperName);
         model.addAttribute("history", history);
         return "index";
     }
 
     private Integer calculate(Integer num1, Integer num2, String type) {
-        Integer result = 0;
+        int result = 0;
         switch (type) {
             case "+":
                 result = num1 + num2;
