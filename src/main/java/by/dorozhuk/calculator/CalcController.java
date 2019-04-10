@@ -13,9 +13,11 @@ import java.util.ArrayList;
 public class CalcController {
 
     private static ArrayList<String> history = new ArrayList<>();
+    private static String name = "ghost";
 
     @GetMapping()
     public String index(Model model) {
+        model.addAttribute("name", this.name);
         model.addAttribute("history", history);
         return "index";
     }
@@ -25,10 +27,23 @@ public class CalcController {
                        @RequestParam(name = "num2") Integer num2,
                        @RequestParam(name = "type") String type,
                        Model model){
-        Integer result = calculate(num1, num2, type);
-        history.add(num1 + " " + type + " " + num2 + " = " + result);
+        Integer result = 0;
+        if (num1 != null && num2 != null){
+            result = calculate(num1, num2, type);
+            history.add(num1 + " " + type + " " + num2 + " = " + result);
+        }
+        model.addAttribute("name", this.name);
         model.addAttribute("history", history);
         model.addAttribute("result", result);
+        return "index";
+    }
+
+    @GetMapping(path = "/user")
+    public String user(@RequestParam(name = "name", required = false) String name,
+                       Model model) {
+        this.name = name;
+        model.addAttribute("name", this.name);
+        model.addAttribute("history", history);
         return "index";
     }
 

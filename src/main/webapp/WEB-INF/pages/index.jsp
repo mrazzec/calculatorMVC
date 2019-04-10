@@ -5,6 +5,9 @@
     <title>Title</title>
 </head>
 <body>
+
+Hello, ${name}
+
 <form action="/calc" method="get">
     <input name="num1" type="text" placeholder="num 1"/>
     <select name="type">
@@ -15,6 +18,10 @@
         <option>%</option>
     </select>
     <input name="num2" type="text" placeholder="num 2"/>
+    <input type="submit" value="submit"/>
+</form>
+<form action="/user">
+    <input name="name" type="text" placeholder="Input name"/>
     <input type="submit" value="submit"/>
 </form>
 
