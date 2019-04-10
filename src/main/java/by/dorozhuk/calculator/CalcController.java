@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class CalcController {
 
     private static ArrayList<String> history = new ArrayList<>();
-    private static String wrapperName = "ghost";
+    private static String wrapperName = "guest";
 
     @GetMapping()
     public String index(Model model) {
@@ -44,7 +44,7 @@ public class CalcController {
         wrapperName = name;
 
         if (name.equals("")) {
-            wrapperName = "ghost";
+            wrapperName = "guest";
         }
 
         model.addAttribute("name", wrapperName);
