@@ -17,7 +17,7 @@ public class CalcController {
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("name", this.name);
+        model.addAttribute("name", name);
         model.addAttribute("history", history);
         return "index";
     }
@@ -26,13 +26,13 @@ public class CalcController {
     public String calc(@RequestParam(name = "num1") Integer num1,
                        @RequestParam(name = "num2") Integer num2,
                        @RequestParam(name = "type") String type,
-                       Model model){
+                       Model model) {
         Integer result = 0;
-        if (num1 != null && num2 != null){
+        if (num1 != null && num2 != null) {
             result = calculate(num1, num2, type);
             history.add(num1 + " " + type + " " + num2 + " = " + result);
         }
-        model.addAttribute("name", this.name);
+        model.addAttribute("name", name);
         model.addAttribute("history", history);
         model.addAttribute("result", result);
         return "index";
@@ -42,6 +42,11 @@ public class CalcController {
     public String user(@RequestParam(name = "name", required = false) String name,
                        Model model) {
         this.name = name;
+
+        if (name.equals("")) {
+            this.name = "ghost";
+        }
+
         model.addAttribute("name", this.name);
         model.addAttribute("history", history);
         return "index";
@@ -49,20 +54,20 @@ public class CalcController {
 
     private Integer calculate(Integer num1, Integer num2, String type) {
         Integer result = 0;
-        switch (type){
-            case "+" :
+        switch (type) {
+            case "+":
                 result = num1 + num2;
                 break;
-            case "-" :
+            case "-":
                 result = num1 - num2;
                 break;
-            case "/" :
+            case "/":
                 result = num1 / num2;
                 break;
-            case "*" :
+            case "*":
                 result = num1 * num2;
                 break;
-            case "%" :
+            case "%":
                 result = num1 % num2;
                 break;
         }
