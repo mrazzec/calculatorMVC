@@ -39,7 +39,7 @@ public class CalcController {
     }
 
     @GetMapping(path = "/user")
-    public String user(@RequestParam(name = "wrapperName", required = false) String name,
+    public String user(@RequestParam(name = "name", required = false) String name,
                        Model model) {
         wrapperName = name;
 

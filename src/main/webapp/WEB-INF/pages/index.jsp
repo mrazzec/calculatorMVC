@@ -9,7 +9,7 @@
 Hello, ${name}
 
 <form action="/calc" method="get">
-    <input name="num1" type="text" placeholder="num 1"/>
+    <input name="num1" type="number" placeholder="num 1" />
     <select name="type">
         <option>+</option>
         <option>-</option>
@@ -17,7 +17,7 @@ Hello, ${name}
         <option>/</option>
         <option>%</option>
     </select>
-    <input name="num2" type="text" placeholder="num 2"/>
+    <input name="num2" type="number" placeholder="num 2"/>
     <input type="submit" value="submit"/>
 </form>
 <form action="/user">
