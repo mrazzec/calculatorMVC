@@ -41,10 +41,11 @@ public class CalcController {
     @GetMapping(path = "/user")
     public String user(@RequestParam(name = "name", required = false) String name,
                        Model model) {
-        wrapperName = name;
 
-        if (name.equals("")) {
+        if (name == null || name.equals("")) {
             wrapperName = "guest";
+        } else {
+            wrapperName = name;
         }
 
         model.addAttribute("name", wrapperName);
