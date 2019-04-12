@@ -9,15 +9,15 @@
 Hello, ${name}
 
 <form action="/calc" method="get">
-    <input name="num1" type="number" placeholder="num 1" />
-    <select name="type">
-        <option>+</option>
-        <option>-</option>
-        <option>*</option>
-        <option>/</option>
-        <option>%</option>
+    <input name="num1" type="number" placeholder="Input num 1" />
+    <select required name="type">
+        <option selected disabled>Выбор</option>
+        <option value="SUM">+</option>
+        <option value="SUB">-</option>
+        <option value="MULT">*</option>
+        <option value="DIV">/</option>
     </select>
-    <input name="num2" type="number" placeholder="num 2"/>
+    <input name="num2" type="number" placeholder="Input num 2"/>
     <input type="submit" value="submit"/>
 </form>
 <form action="/user">

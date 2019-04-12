@@ -1,8 +1,12 @@
 package by.dorozhuk.calculator;
 
+import by.dorozhuk.calculator.entity.Calculator;
+import by.dorozhuk.calculator.entity.Operation;
+import by.dorozhuk.calculator.entity.OperationEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,24 +21,27 @@ public class CalcController {
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("name", wrapperName);
-        model.addAttribute("history", history);
+        inputModel(model);
+        return "index";
+    }
+
+    @GetMapping(path = "/calc/{num1}/{num2}/{type}")
+    public String calc(@PathVariable(name = "num1") Integer num1,
+                       @PathVariable(name = "num2") Integer num2,
+                       @PathVariable(name = "type") OperationEnum type,
+                       Model model) {
+        dirtyWork(num1, num2, type);
+        inputModel(model);
         return "index";
     }
 
     @GetMapping(path = "/calc")
-    public String calc(@RequestParam(name = "num1") Integer num1,
-                       @RequestParam(name = "num2") Integer num2,
-                       @RequestParam(name = "type") String type,
-                       Model model) {
-        Integer result = 0;
-        if (num1 != null && num2 != null) {
-            result = calculate(num1, num2, type);
-            history.add(num1 + " " + type + " " + num2 + " = " + result);
-        }
-        model.addAttribute("name", wrapperName);
-        model.addAttribute("history", history);
-        model.addAttribute("result", result);
+    public String formCalc(@RequestParam(name = "num1") Integer num1,
+                           @RequestParam(name = "num2") Integer num2,
+                           @RequestParam(name = "type") OperationEnum type,
+                           Model model) {
+        dirtyWork(num1, num2, type);
+        inputModel(model);
         return "index";
     }
 
@@ -48,31 +55,42 @@ public class CalcController {
             wrapperName = name;
         }
 
-        model.addAttribute("name", wrapperName);
-        model.addAttribute("history", history);
+        inputModel(model);
         return "index";
     }
 
-    private Integer calculate(Integer num1, Integer num2, String type) {
-        int result = 0;
-        switch (type) {
-            case "+":
-                result = num1 + num2;
+    private String calculate(Operation operation) {
+        String result = "";
+        switch (operation.getType()) {
+            case SUM:
+                result = Calculator.sum(operation);
                 break;
-            case "-":
-                result = num1 - num2;
+            case SUB:
+                result = Calculator.sub(operation);
                 break;
-            case "/":
-                result = num1 / num2;
+            case MULT:
+                result = Calculator.mult(operation);
                 break;
-            case "*":
-                result = num1 * num2;
-                break;
-            case "%":
-                result = num1 % num2;
+            case DIV:
+                result = Calculator.div(operation);
                 break;
         }
         return result;
+    }
+
+    private Model inputModel(Model model) {
+        model.addAttribute("name", wrapperName);
+        model.addAttribute("history", history);
+        return model;
+    }
+
+    private void dirtyWork(Integer num1, Integer num2, OperationEnum type) {
+        Operation operation = new Operation(num1, num2, type);
+        String result;
+        if (num1 != null && num2 != null && type != null) {
+            result = calculate(operation);
+            history.add(result);
+        }
     }
 
 }
